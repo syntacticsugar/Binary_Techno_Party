@@ -1,0 +1,84 @@
+<canvas id="rainbox" width="900", height="900">
+Random Canvas
+</canvas>
+
+<script type="text/javascript">
+function setPixel(imageData, x, y, r, g, b, a) {
+    var index = (x + y * imageData.width) * 4;
+    imageData.data[index+0] = r;
+    imageData.data[index+1] = g;
+    imageData.data[index+2] = b;
+    imageData.data[index+3] = a;
+}
+
+var element = document.getElementById("rainbox");
+var context = element.getContext("2d");
+
+// read the width and height of the canvas
+var width = element.width;
+var height = element.height;
+
+// create a new pixel array
+var imageData = context.createImageData(width, height);
+
+// draw random dots
+//for (i = 0; i < 10000; i++) {
+//    var x = Math.floor(Math.random() * width);
+//    var y = Math.floor(Math.random() * height);
+//    var r = Math.floor(Math.random() * 256);
+//    var g = Math.floor(Math.random() * 256);
+//    var b = Math.floor(Math.random() * 256);
+//    setPixel(imageData, x, y, r, g, b, 255); // 255 opaque
+//}
+
+// all red!
+//for (var x = 0; x < width; x++) {
+//        for (var y = 0; y < height; y++) {
+//            setPixel(imageData, x, y, 170, 0, 0, 255); // 255 opaque
+//        }
+//};
+
+//  for (var x = 0; x < width; x++){
+//      for (var y = 0; y < width; y++){
+//          setPixel(imageData, x, y, (170/width) * x, 0, (-255/width * x + 255), 255);
+//      }
+//  };
+
+function magnitude(vector1){
+    return Math.sqrt( Math.pow(vector1[0], 2) + Math.pow(vector1[1], 2));
+
+};
+
+function addVectors( vector1,vector2 ){
+    return [ vector1[0] + vector2[0],
+           vector1[1] + vector2[1] ];
+};
+
+function squareVector( vector ){
+    return [ Math.pow(vector[0], 2) - Math.pow(vector[1], 2),
+        (vector[0] * vector[1]) * 2];
+};
+
+function mandelbrot( vectorC ){
+// zed starts off (0,0)
+    var zed = [0,0];
+    var i;
+    for ( i = 0; (i < 255) && (magnitude(zed) < 2); i++ ){
+        zed = addVectors(squareVector(zed), vectorC);
+    };
+// mandelbrot returns how many times this function
+// has to be executed.
+    return i;
+}
+
+for (var x = 0; x < width; x++){
+    for (var y = 0; y < height; y++){
+        var color = mandelbrot([ x/width, y/height ]);
+    setPixel(imageData, x, y, 0, 0, color, 255);
+    }
+}
+
+// copy the image data back onto the canvas
+context.putImageData(imageData, 0, 0); // at coords 0,0
+
+</script>
