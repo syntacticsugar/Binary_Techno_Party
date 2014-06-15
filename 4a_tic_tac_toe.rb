@@ -1,3 +1,4 @@
+require 'pry'
 =begin
 
 g =
@@ -14,9 +15,8 @@ b1,b2,b3,b4
 c1,c2,c3,c4
 d1,d2,d3,d4
 
-=end
 
-#vertical_wins
+vertical_wins
 vertical_wins = [[ "a1", "b1", "c1"]
                 ,[ "a2", "b2", "c2"]
                 ,[ "a3", "b3", "c3"]]
@@ -31,6 +31,7 @@ v = []
     v.push([row,column.to_s].join(""))
   end
 end
+=end
 
 
 class Board
@@ -72,7 +73,7 @@ class Board
   end
 
   # return an array of vertical wins
-  def vertical_wins
+  def v_wins
     v = []
     @columns.each do |column| # WHY MY CODE SO UGLEE?  ARGH
       @rows.each do |row|
@@ -83,7 +84,8 @@ class Board
   end
 
   # return an array of horizontal wins
-  def horizontal_wins
+  #def horizontal_wins
+  def h_wins
     h = []
     @rows.each do |row|
       @columns.each do |column|
@@ -93,20 +95,15 @@ class Board
     h.each_slice(@size).to_a
   end
 
-=begin
-a1,a2,a3,
-b1,b2,b3
-c1,c2,c3
-=end
-
-
   def diagonal_wins
-    d = []
-    1.upto(@size).each do |column|
-      'a'..(@alphabet[@size-1]).each do |row|
-        d.push([row])
-      end
+    diag1, diag2 = [], []
+    0.upto(@size-1).each do |i| # |i| for index
+      diag1.push(@rows[i] + @columns[i])
+      diag2.push( @rows[@size-1-i] + @columns[i]) # this last bit was tricky
     end
+    # [[a1,b2,c3]   =>  a++, 1++
+    # ,[a3,b2,c1]]  =>  a++, @size--
+    [diag1, diag2]
   end
 
   def winner? player
@@ -115,5 +112,5 @@ c1,c2,c3
   end
 end
 
-class Player
-end
+b = Board.new
+p b.diagonal_wins
