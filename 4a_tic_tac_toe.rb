@@ -1,20 +1,9 @@
 require 'pry'
 =begin
 
-g =
-[[],[],[]   # g[0], g[1], g[2],
-,[],[],[]   # g[3], g[4], g[5],
-,[],[],[]]  # g[6], g[7], g[8],
-
 a1,a2,a3,
 b1,b2,b3
 c1,c2,c3
-
-a1,a2,a3,a4
-b1,b2,b3,b4
-c1,c2,c3,c4
-d1,d2,d3,d4
-
 
 vertical_wins
 vertical_wins = [[ "a1", "b1", "c1"]
@@ -24,15 +13,14 @@ vertical_wins = [[ "a1", "b1", "c1"]
 horizontal_wins = [['a1,' 'a2', 'a3']
                   ,['b1', 'b2', 'b3']
                   ,['c1', 'c2', 'c3']
-v = []
 
+v = []
 1.upto(3).to_a.each do |column|
   ('a'..'c').each do |row|
     v.push([row,column.to_s].join(""))
   end
 end
 =end
-
 
 class Board
   def initialize(grid_size=3)
@@ -51,10 +39,12 @@ class Board
     #cells.each_slice(@size).to_a
     faux_hash = cells.map { |cell| [cell, nil] }
     @board = Hash[faux_hash]
+    #binding.pry
   end
 
   def position_free? position
-    !@board[position].nil?
+    #!@board[position].nil?
+    @board[position].nil? #no bang
   end
 
   def move! (player, position)
@@ -68,14 +58,14 @@ class Board
       position
     else
       #raise "That space is already occupied, choose another"
-      nil
+      nil #why am i returning nil, though?
     end
   end
 
   # return an array of vertical wins
   def v_wins
     v = []
-    @columns.each do |column| # WHY MY CODE SO UGLEE?  ARGH
+    @columns.each do |column|
       @rows.each do |row|
         v.push([row,column].join(""))
       end
@@ -95,7 +85,8 @@ class Board
     h.each_slice(@size).to_a
   end
 
-  def diagonal_wins
+  #def diagonal_wins
+  def d_wins
     diag1, diag2 = [], []
     0.upto(@size-1).each do |i| # |i| for index
       diag1.push(@rows[i] + @columns[i])
@@ -106,11 +97,50 @@ class Board
     [diag1, diag2]
   end
 
+  example_hashhh=
+  { "a1"=>'x', "b1"=>nil,   "1c"=>nil,
+    "a2"=>nil, "b2"=>'x',   "2c"=>nil,
+    "a3"=>'y', "b3"=>nil,   "3c"=>'x'   }
+
+  def d_winner? player # player is a string, like 'x'
+    d_wins.each do |winning_set| # ex. winning_set = ["a1", "b2", "c3"]
+
+      occupants = winning_set.map { |position| @board[position] }
+      # 'occupants' should give me an ARRAY of occupants, I need to check
+      # if the occupants match up with the 'player' in question
+      # ex: occupants = ['x','x','x']
+      matches = occupants.map { |x| x.equal? player }
+      if matches.all?
+        return true
+      end
+    end
+    false # (no winning set found)
+  end
+
+  def alt_d_winner? player
+    d_wins.map { |winning_set|
+      #occupants = winning_set.map { |position| @board[positions] }
+      #occupants.map { |x| x.equal? player }.all?
+      winning_set.map { |p| @board[p].equal? player }.all?
+    }.any?
+  end
+
   def winner? player
     # returns a bool
-    (h_winner? player) or (v_winner? player) or (d_winner? player)
+    #(h_winner? player) or (v_winner? player) or (d_winner? player)
+    winning_sets = h_wins + v_wins + d_wins
+    #winning_sets = [h_wins, v_wins, d_wins].flatten
+    winning_sets.map { |winning_set|
+      winning_set.map { |p| @board[p].equal? player }.all?
+    }.any?
   end
 end
 
 b = Board.new
-p b.diagonal_wins
+p b.d_wins
+
+=begin
+TODO:
+refactor the (repeated) ideas in d_winner? alt_d_winner? and winner?
+produce a single consolidated/canonical version of the code
+=end
