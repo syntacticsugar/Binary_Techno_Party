@@ -163,7 +163,7 @@ class Game
 =end
       puts "Okay, so here's how the board looks so far:\n
        #{@b.board}\n\n\n"
-      puts '#{@player1}, which cell do you choose?'
+      puts "#{@player1}, which cell do you choose?"
       @choice = gets.chomp.to_s.downcase
 
       @b.move!(@player1, @choice)
@@ -181,7 +181,7 @@ class Game
   def move_player2
       puts "Okay, so here's how the board looks so far:\n
        #{@b.board}\n\n\n"
-      puts '#{@player2}, which cell do you choose?'
+      puts "#{@player2}, which cell do you choose?"
       @choice = gets.chomp.to_s.downcase
 
       @b.move!(@player2, @choice)
