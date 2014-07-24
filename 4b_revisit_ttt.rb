@@ -33,6 +33,7 @@ end
 h_wins.each_slice(3).to_a
 
 class Board
+  attr_accessor :board
   def initialize(grid_size=3)
     @size = grid_size
     #@rows, @columns = @size, @size
@@ -128,41 +129,43 @@ p b.winner? 'x'
 
 # CONTROLLER
 class Game
-  #attr_accessor :choice
+  attr_accessor :choice, :player1, :player2
   def initialize(players=2, grid_size=3)
     @game_state = true
+    @player1 = 'Player (X)'
+    @player2 = 'Player (Y)'
+
     @b = Board.new
 
     puts "Welcome to this two-player game of Tic Tac Toe.  How many rows/columns would you guys like?  Well actually, your opinion doesn't matter.  The default grid size for now is 3 by 3. \n
     Player 1 is 'X'. (uppercase or lowercase)
-    Player 2 is 'Y'. (uppercase or lowercase)\n\n"
+    Player 2 is 'Y'. (uppercase or lowercase)\n\n
+    Hit 'enter' to continue."
+    gets #waits for user to hit 'enter'
+
 
     begin_game
   end
 
   def begin_game
-    'Player 1, which cell do you choose?'
+    until @b.winner(@player1) or @b.winner(@player2)
+      puts "Okay, so here's how the board looks so far:\n
+      #{@b.board[0]}\n
+      #{@b.board[1]}\n
+      #{@b.board[2]}\n
+      \n"
+      '#{player1}, which cell do you choose?'
+      @choice = gets.chomp.to_s.downcase
+
+      @b.move!(@player1, @choice)
+
+      puts "#{@player1} moved to #{@choice}:"
+      puts "#{@b.board}\n"
+
+      #@game_state = false
+    end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
