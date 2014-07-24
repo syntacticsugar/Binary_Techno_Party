@@ -170,13 +170,23 @@ class Game
 
       puts "#{@player1} moved to #{@choice}:"
       puts "#{@b.board[0]}\n" + "#{@b.board[1]}\n" + "#{@b.board[1]}\n"
-
-      move_player2
+        if @b.winner?(@player1)
+          game_over @player1
+        elsif @b.winner?(@player2)
+          game_over @player2
+        else
+          move_player2
+        end
       #@game_state = false
       elsif @b.winner?(@player1) or @b.winner?(@player2)
-        "END GAME, SOMEBODY WON, I DON'T KNOW WHO THO..."
+        game_over
     end
   end # end move_player1
+
+  def game_over(winner)
+    puts "END GAME, SOMEBODY WON, I DON'T KNOW WHO THO..."
+    puts "Actually, I think #{winner} won!"
+  end
 
   def move_player2
       puts "Okay, so here's how the board looks so far:\n
@@ -190,6 +200,9 @@ class Game
       puts "#{@b.board[0]}\n" + "#{@b.board[1]}\n" + "#{@b.board[1]}\n"
 
       move_player1
+  end
+
+  def move_somebody(player)
   end
 end
 
