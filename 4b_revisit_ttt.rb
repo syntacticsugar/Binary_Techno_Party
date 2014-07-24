@@ -14,7 +14,6 @@ horizontal_wins = [[ 'a1', 'a2', 'a3'],
                    [ 'b1', 'b2', 'b3'],
                    [ 'c1', 'c2', 'c3']]
 
-=end
 
 v_wins = []
 1.upto(3).each do |column|
@@ -31,6 +30,9 @@ h_wins = []
   end
 end
 h_wins.each_slice(3).to_a
+
+=end
+
 
 class Board
   attr_accessor :board
