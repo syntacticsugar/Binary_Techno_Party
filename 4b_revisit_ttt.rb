@@ -149,11 +149,11 @@ class Game
     gets #waits for user to hit 'enter'
 
 
-    begin_game
+    move_player1
   end
 
-  def begin_game
-    until @b.winner?(@player1) or @b.winner?(@player2)
+  def move_player1
+    if !@b.winner?(@player1) and !@b.winner?(@player2)
 =begin
       puts "Okay, so here's how the board looks so far:\n
       #{@b.board[0]}\n
@@ -161,8 +161,8 @@ class Game
       #{@b.board[2]}\n
       \n"
 =end
- puts "Okay, so here's how the board looks so far:\n
-       #{@b.board}\n"
+      puts "Okay, so here's how the board looks so far:\n
+       #{@b.board}\n\n\n"
       puts '#{player1}, which cell do you choose?'
       @choice = gets.chomp.to_s.downcase
 
@@ -171,8 +171,25 @@ class Game
       puts "#{@player1} moved to #{@choice}:"
       puts "#{@b.board[0]}\n" + "#{@b.board[1]}\n" + "#{@b.board[1]}\n"
 
+      move_player2
       #@game_state = false
+      elsif @b.winner?(@player1) or @b.winner?(@player2)
+        "END GAME, SOMEBODY WON, I DON'T KNOW WHO THO..."
     end
+  end # end move_player1
+
+  def move_player2
+      puts "Okay, so here's how the board looks so far:\n
+       #{@b.board}\n\n\n"
+      puts '#{player2}, which cell do you choose?'
+      @choice = gets.chomp.to_s.downcase
+
+      @b.move!(@player2, @choice)
+
+      puts "#{@player2} moved to #{@choice}:"
+      puts "#{@b.board[0]}\n" + "#{@b.board[1]}\n" + "#{@b.board[1]}\n"
+
+      move_player1
   end
 end
 
