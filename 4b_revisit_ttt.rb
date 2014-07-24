@@ -119,6 +119,8 @@ class Board
 
 end
 
+=begin
+#STUFF TO RUN RIGHT AFTER THE MODEL/LOGIC ABOVE
 b = Board.new
 #b.v_wins
 p b.winner? 'x'
@@ -128,6 +130,7 @@ b.move!('x', 'a2')
 p b.winner? 'x'
 b.move!('x', 'a3')
 p b.winner? 'x'
+=end
 
 # CONTROLLER
 class Game
@@ -139,7 +142,7 @@ class Game
 
     @b = Board.new
 
-    puts "Welcome to this two-player game of Tic Tac Toe.  How many rows/columns would you guys like?  Well actually, your opinion doesn't matter.  The default grid size for now is 3 by 3. \n
+    puts "\n\n\n\nWelcome to this two-player game of Tic Tac Toe.  How many rows/columns would you guys like?  Well actually, your opinion doesn't matter.  The default grid size for now is 3 by 3. \n
     Player 1 is 'X'. (uppercase or lowercase)
     Player 2 is 'Y'. (uppercase or lowercase)\n\n
     Hit 'enter' to continue."
@@ -150,25 +153,29 @@ class Game
   end
 
   def begin_game
-    until @b.winner(@player1) or @b.winner(@player2)
+    until @b.winner?(@player1) or @b.winner?(@player2)
+=begin
       puts "Okay, so here's how the board looks so far:\n
       #{@b.board[0]}\n
       #{@b.board[1]}\n
       #{@b.board[2]}\n
       \n"
-      '#{player1}, which cell do you choose?'
+=end
+ puts "Okay, so here's how the board looks so far:\n
+       #{@b.board}\n"
+      puts '#{player1}, which cell do you choose?'
       @choice = gets.chomp.to_s.downcase
 
       @b.move!(@player1, @choice)
 
       puts "#{@player1} moved to #{@choice}:"
-      puts "#{@b.board}\n"
+      puts "#{@b.board[0]}\n" + "#{@b.board[1]}\n" + "#{@b.board[1]}\n"
 
       #@game_state = false
     end
   end
 end
 
-
+g = Game.new
 
 

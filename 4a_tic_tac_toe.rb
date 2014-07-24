@@ -42,6 +42,10 @@ class Board
     #binding.pry
   end
 
+  def print_board
+    puts "#{@board}"
+  end
+
   def position_free? position
     #!@board[position].nil?
     @board[position].nil? #no bang
@@ -137,7 +141,8 @@ class Board
 end
 
 b = Board.new
-p b.d_wins
+p b.v_wins
+p b.print_board
 
 =begin
 TODO:
