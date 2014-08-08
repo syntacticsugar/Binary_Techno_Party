@@ -115,6 +115,9 @@ class Board
       end
     end
   end
+
+  def pretty_print
+  end
 end
 
 =begin
@@ -228,7 +231,7 @@ class Game
 
 end
 
-g = Game.new
+#g = Game.new
 
 =begin
 PRETTY PRINT the game board
@@ -247,5 +250,12 @@ PRETTY PRINT the game board
 
 =end
 
+puts "
+        ----------------
+        | a1 | a2 | a3 |
+        | b1 | b2 | b3 |
+        | c1 | c2 | c3 |
+        ----------------
+"
 
 
